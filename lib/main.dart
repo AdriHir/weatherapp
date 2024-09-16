@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:meteoapp/services/geolocator.dart';
 import 'package:meteoapp/services/requeteapi.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -39,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var requeteData = "";
   String? currentLocation;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   connect().then((resBody) {
                     setState(() {
-                      requeteData = jsonDecode(resBody).toString();
+                      requeteData = resBody.city.name;
                     });
                   });
                 },
@@ -65,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Obtenir ma localisation'),
             ),
             Text(currentLocation ?? "Location not available"),
+
           ],
         ),
       ),
