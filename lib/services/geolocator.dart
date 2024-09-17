@@ -1,5 +1,5 @@
 import 'package:geolocator/geolocator.dart';
-
+//fonction de geolocalisation return la lng et lat
 Future<Position> getLocation() async {
   LocationPermission permission;
 
@@ -15,3 +15,4 @@ Future<Position> getLocation() async {
   }
   return await Geolocator.getCurrentPosition();
 }
+

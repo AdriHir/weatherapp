@@ -1,28 +1,26 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
+
 
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+Meteo MeteoFromJson(String str) => Meteo.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String MeteoToJson(Meteo data) => json.encode(data.toJson());
 
 
 
-class Welcome {
+class Meteo {
   City city;
   DateTime update;
   List<Forecast> forecast;
 
-  Welcome({
+  Meteo({
     required this.city,
     required this.update,
     required this.forecast,
   });
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory Meteo.fromJson(Map<String, dynamic> json) => Meteo(
     city: City.fromJson(json["city"]),
     update: DateTime.parse(json["update"]),
     forecast: List<Forecast>.from(json["forecast"].map((x) => Forecast.fromJson(x))),

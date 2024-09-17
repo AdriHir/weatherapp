@@ -1,73 +1,109 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:meteoapp/services/geolocator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meteoapp/entities/meteoEntity.dart';
 import 'package:meteoapp/services/requeteapi.dart';
-
+import 'package:meteoapp/utils/funcForIcon.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatefulWidget {
+  const MainApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  String cityName = 'Chargement...';
+  Meteo? meteoData;
+  String weatherInfo = '';
+  String temperatureInfo = ''; // Variable pour la température
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWeatherData();
+  }
+
+  Future<void> fetchWeatherData() async {
+    try {
+      meteoData = await connect();
+      final forecast = meteoData!.forecast[0];
+      setState(() {
+        cityName = meteoData!.city.name;
+        weatherInfo = 'Météo : ${forecast.weather}';
+        temperatureInfo = 'Tmin: ${forecast.tmin}°C - Tmax${forecast.tmax}°C';
+        //
+      });
+    } catch (e) {
+      setState(() {
+        cityName = 'Erreur de récupération des données';
+      });
+    }
+  }
+
+  // void show update
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var requeteData = "";
-  String? currentLocation;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+      home: Scaffold(
+        body: Stack(
           children: [
-            Text(requeteData),
-            ElevatedButton(
-                onPressed: () {
-                  connect().then((resBody) {
-                    setState(() {
-                      requeteData = resBody.city.name;
-                    });
-                  });
-                },
-                child: Text("requete")),
-            ElevatedButton(
-              onPressed: () async {
-                Position position = await getLocation();
-                setState(() {
-                  currentLocation = "${position.latitude}, ${position.longitude}";
-                });
-              },
-              child: Text('Obtenir ma localisation'),
+            Positioned.fill(
+              child: Image.asset(
+                "lib/assets/pictures/back.jpg",
+                fit: BoxFit.cover,
+              ),
             ),
-            Text(currentLocation ?? "Location not available"),
+            Positioned(
+              top: 80,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
+                    Row (
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "$cityName",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SvgPicture.asset("lib/assets/icons/animated/rainy-1.svg",
+                          width: 100,
+                          height: 100,
+                        ),
+                      ],
+                    ),
+
+                    Text(
+                      weatherInfo,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+
+                    SizedBox(height: 10),
+                    Text(
+                      temperatureInfo, // Afficher la température
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
