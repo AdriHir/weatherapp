@@ -15,10 +15,11 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   String cityName = 'Chargement...';
+  String cp = "";
+
   String temperatureInfo = '';
   List<String> weatherInfoList = [];
   String today = '';
-
 
   @override
   void initState() {
@@ -27,7 +28,15 @@ class _MainAppState extends State<MainApp> {
       if (succeed) {
         setState(() {
           cityName = meteoData!.city.name;
-          today = meteoData.update.isUtc.toString()+" "+ meteoData.update.day.toString() + " "+meteoData.update.month.toString()+" "+ meteoData.update.year.toString();
+          cp = meteoData!.city.cp.toString();
+
+          today = meteoData.update.isUtc.toString() +
+              " " +
+              meteoData.update.day.toString() +
+              " " +
+              meteoData.update.month.toString() +
+              " " +
+              meteoData.update.year.toString();
 
           temperatureInfo =
               'Tmin: ${forecast[0]?.tmin}°C - Tmax${forecast[0]?.tmax}°C';
@@ -61,7 +70,7 @@ class _MainAppState extends State<MainApp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "$cityName",
+                    "$cityName $cp",
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.white,
@@ -73,6 +82,13 @@ class _MainAppState extends State<MainApp> {
                     height: 100,
                   ),
                 ],
+              ),
+              Text(
+                "$temperatureInfo",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
               SizedBox(height: 10),
               Text(
