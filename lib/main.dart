@@ -16,21 +16,21 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   String cityName = 'Chargement...';
   String cp = "";
-
   String temperatureInfo = '';
   List<String> weatherInfoList = [];
   String today = '';
+  //ici on iniatialise les variables pour les utiliser dans le setState
 
   @override
   void initState() {
     super.initState();
     getWeatherData((succeed, forecast, meteoData) {
       if (succeed) {
+        // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
-          cityName = meteoData!.city.name;
-          cp = meteoData!.city.cp.toString();
-
-          today = meteoData.update.isUtc.toString() +
+          cityName = meteoData!.city.name; // on affecte le nom de la ville
+          cp = meteoData.city.cp.toString();
+          today = meteoData.update.isUtc.toString() + // concatenation de string pour afficher jour date mois annee
               " " +
               meteoData.update.day.toString() +
               " " +
@@ -39,11 +39,16 @@ class _MainAppState extends State<MainApp> {
               meteoData.update.year.toString();
 
           temperatureInfo =
-              'Tmin: ${forecast[0]?.tmin}°C - Tmax${forecast[0]?.tmax}°C';
+              'Tmin: ${forecast[0]?.tmin}°C - Tmax: ${forecast[0]?.tmax}°C';
+
+          // creation d'une liste weatherInfoList pour les jours à venir.
           weatherInfoList = forecast
               .sublist(0, meteoData.forecast.length)
-              .map((dailyForecast) =>
-                  'Jour ${forecast.indexOf(dailyForecast) + 1} : ${dailyForecast.weather}')
+              //sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
+
+              .map((dailyOnForecast) => // .map applique la fonction dite de transformation ( c'est google qui ma dis ! ) à chaque elemeent de la sous liste qu'on a mis en variable DailyOnforcast
+                  ' ${dailyOnForecast.weather} \n ${meteoData.update.day + 1}/${meteoData.update.month}')
+              //concatenation que l'on veux mettre dans une liste a chauque indice
               .toList();
         });
       } else {
@@ -93,6 +98,27 @@ class _MainAppState extends State<MainApp> {
                 color: Colors.white,
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 300,
+                  width: 50,
+                  ),
+                Text("data"),
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                ),
+                Text("data"),
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                ),
+                Text("data"),
+               ],
+            ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -103,6 +129,7 @@ class _MainAppState extends State<MainApp> {
                     child: Row(
                       children: weatherInfoList.map((weather) {
                         return Container(
+
                           margin: EdgeInsets.only(right: 15),
                           // met un margin entre les boitesa droite
                           padding: EdgeInsets.all(20),
