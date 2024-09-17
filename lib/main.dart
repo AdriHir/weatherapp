@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meteoapp/entities/meteoEntity.dart';
 import 'package:meteoapp/services/requeteapi.dart';
-import 'package:meteoapp/utils/funcForIcon.dart';
 
 void main() {
   runApp(const MainApp());
@@ -50,61 +49,49 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                "lib/assets/pictures/back.jpg",
-                fit: BoxFit.cover,
+        body: Container(
+          decoration: const BoxDecoration(
+            image:DecorationImage(
+            image: AssetImage("lib/assets/pictures/back.jpg"),
+              fit: BoxFit.fill
+            )
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "$cityName",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    "lib/assets/icons/animated/rainy-1.svg",
+                    width: 100,
+                    height: 100,
+                  ),
+                ],
               ),
-            ),
-            Positioned(
-              top: 80,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-                    Row (
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "$cityName",
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SvgPicture.asset("lib/assets/icons/animated/rainy-1.svg",
-                          width: 100,
-                          height: 100,
-                        ),
-                      ],
-                    ),
-
-                    Text(
-                      weatherInfo,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-
-                    SizedBox(height: 10),
-                    Text(
-                      temperatureInfo, // Afficher la température
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+              Text(
+                weatherInfo,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+              Text(
+                temperatureInfo, // Afficher la température
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
