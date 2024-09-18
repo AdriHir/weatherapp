@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:meteoapp/entities/entityMeteo.dart';
+import 'package:meteoapp/pages/chartpage.dart';
 import 'package:meteoapp/utils/initWeatherData.dart';
 
 void main() {
@@ -61,11 +62,11 @@ class _MainAppState extends State<MainApp> {
           for (int i = 0; i < meteoData.list.length; i++) {
             weatherPre10day.add(meteoData.list[i]);
           }
-           weatherInfoList = weatherPre10day
-           /*******************************si j'ai bien compris on affecte les indice du tableau qu'on affcecte a une map******************************************/
+          weatherInfoList = weatherPre10day
+              /*******************************si j'ai bien compris on affecte les indice du tableau qu'on affcecte a une map******************************************/
               .sublist(0, meteoData.list.length)
               .map((daylylist) =>
-           /***************************** on affecte les données qu'on veux afficher dans la map***************************************************/
+                  /***************************** on affecte les données qu'on veux afficher dans la map***************************************************/
                   'Tmax:${daylylist.main.tempMax.toStringAsFixed(1)}\nTMin:${daylylist.main.tempMin.toStringAsFixed(1)}')
               .toList();
           /**************************************************************/
@@ -94,7 +95,9 @@ class _MainAppState extends State<MainApp> {
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("lib/assets/pictures/back.jpg"), /// ajout d'un background image
+                  image: AssetImage("lib/assets/pictures/back.jpg"),
+
+                  /// ajout d'un background image
                   fit: BoxFit.fill)),
           child: Column(children: [
             const Spacer(),
@@ -112,7 +115,8 @@ class _MainAppState extends State<MainApp> {
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             /*********************************Icon**************************************************/
-            if (dataArrived) Image.network(urlIcon), //affectation d'une variable pour evite l'erreur d'affichage en attendant la recuperation
+            if (dataArrived) Image.network(urlIcon),
+            //affectation d'une variable pour evite l'erreur d'affichage en attendant la recuperation
             /******************************Temperature********************************************/
             Text(
               "$tempT C°",
@@ -222,6 +226,18 @@ class _MainAppState extends State<MainApp> {
                 ),
               ],
             ),
+            SizedBox(height: 50),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Chartpage( listDailyWheather: {"la futur map des données","encore des données","toujorus des données"} )),
+                  );
+                },
+                child: Text("temperature du jour ")),
+
             /***************************Expanded Scroll Men*********************************/
             Expanded(
               child: Align(
