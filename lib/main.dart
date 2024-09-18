@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meteoapp/entities/entityMeteo.dart';
 import 'package:meteoapp/utils/initParam.dart';
 import 'package:meteoapp/utils/initWetaher.dart';
 
@@ -27,17 +28,25 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    getWeather((succeed, meteoData) {
+    getWeather((succeed, List<ListElement> weatherList,meteoData) {
       if (succeed) {
         // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
 
           cityName=meteoData!.city.name;
-          tem
+
           cp=meteoData!.city.country.toString();
           today=meteoData.city.timezone.toString();
-          tempT=meteoData.list[0].main.temp.toString()
-          // cityName = meteoData!.city.name; // on affe
+          tempT=meteoData.list[0].main.temp.toString();
+          weatherInfoList = weatherList.sublist(0,meteoData.list.length).map((daylylist)=>'Tmax:${(daylylist.main.tempMax- 273.15).toStringAsFixed(0)}\nTMin:${(daylylist.main.tempMin- 273.15).toStringAsFixed(0)}').toList();
+          // weatherInfoList = forecast
+          // .sublist(0, meteoData.forecast.length)
+          // sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
+          //     .map((dailyOnForecast) => // .map applique la fonction dite de transformation ( c'est google qui ma dis ! ) à chaque elemeent de la sous liste qu'on a mis en variable DailyOnforcast
+          //     ' ${dailyOnForecast.weather} \n ${meteoData.update.day + 1}/${meteoData.update.month}')
+          //      concatenation que l'on veux mettre dans une liste a chauque indice
+          //      .toList();
+          //cityName= meteoData!.city.name; // on affe
           // cte le nom de la ville
           // cp = meteoData.city.cp.toString();
 
@@ -53,14 +62,8 @@ class _MainAppState extends State<MainApp> {
           //     'Tmin: ${forecast[0]?.tmin}°C - Tmax: ${forecast[0]?.tmax}°C';
           //
           // // creation d'une liste weatherInfoList pour les jours à venir.
-          // weatherInfoList = forecast
-          //     .sublist(0, meteoData.forecast.length)
-          //     //sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
-          //
-          //     .map((dailyOnForecast) => // .map applique la fonction dite de transformation ( c'est google qui ma dis ! ) à chaque elemeent de la sous liste qu'on a mis en variable DailyOnforcast
-          //         ' ${dailyOnForecast.weather} \n ${meteoData.update.day + 1}/${meteoData.update.month}')
-          //     //concatenation que l'on veux mettre dans une liste a chauque indice
-          //     .toList();
+
+
         });
       } else {
         setState(() {
