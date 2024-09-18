@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meteoapp/entities/entityMeteo.dart';
 import 'package:meteoapp/utils/initWetaher.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+
 
 void main() {
   runApp(const MainApp());
@@ -54,10 +57,10 @@ class _MainAppState extends State<MainApp> {
               .toList();
           vent = meteoData.list[0].wind.speed.toString();
           venDirection = meteoData.list[0].wind.deg.toString();
-
-          DateTime date = DateTime.now();
-          DateFormat formatter = DateFormat('EEEE d MMMM yyyy','pt_FR');
-          dataJours = formatter.format(date);
+          initializeDateFormatting();
+          DateTime nowUtc = DateTime.now().toUtc();
+          DateFormat localFormat = DateFormat.yMMMMEEEEd('fr');
+          dataJours = localFormat.format(nowUtc);
 
 
         });
@@ -82,11 +85,17 @@ class _MainAppState extends State<MainApp> {
           child: Column(children: [
             const Spacer(),
             Text(
-              "$cityName $pays \n $dataJours",
+              "$cityName $pays",
               style: const TextStyle(
                 fontSize: 26,
                 color: Colors.white,
               ),
+            ),
+            Text('$dataJours',
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.grey
+            ),
             ),
             Image.network(urlIcon),
             Text(
