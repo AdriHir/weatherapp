@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meteoapp/entities/entityMeteo.dart';
 import 'package:meteoapp/utils/initWetaher.dart';
 
@@ -23,6 +24,10 @@ class _MainAppState extends State<MainApp> {
   String weatherIcon = '';
   String pays = '';
   String urlIcon = '';
+  String humidite = '';
+  String vent = '';
+  String venDirection = '';
+  String dataJours = '';
 
   //ici on iniatialise les variables pour les utiliser dans le setState
 
@@ -37,6 +42,7 @@ class _MainAppState extends State<MainApp> {
           weatherIcon = meteoData.list[0].weather[0]
               .icon; //recuperation du code icon de ladatabase
           urlIcon = "https://openweathermap.org/img/wn/${weatherIcon}@2x.png";
+          humidite = meteoData.list[0].main.humidity.toString();
           tempT = meteoData.list[0].main.temp.toStringAsFixed(0);
           pays = meteoData.city.country.toString();
           today = meteoData.city.population.toStringAsFixed(0);
@@ -46,29 +52,14 @@ class _MainAppState extends State<MainApp> {
               .map((daylylist) =>
                   'Tmax:${daylylist.main.tempMax.toStringAsFixed(1)}\nTMin:${daylylist.main.tempMin.toStringAsFixed(1)}')
               .toList();
-          // weatherInfoList = forecast
-          // .sublist(0, meteoData.forecast.length)
-          // sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
-          //     .map((dailyOnForecast) => // .map applique la fonction dite de transformation ( c'est google qui ma dis ! ) à chaque elemeent de la sous liste qu'on a mis en variable DailyOnforcast
-          //     ' ${dailyOnForecast.weather} \n ${meteoData.update.day + 1}/${meteoData.update.month}')
-          //      concatenation que l'on veux mettre dans une liste a chauque indice
-          //      .toList();
-          //cityName= meteoData!.city.name; // on affe
-          // cte le nom de la ville
-          // cp = meteoData.city.cp.toString();
+          vent = meteoData.list[0].wind.speed.toString();
+          venDirection = meteoData.list[0].wind.deg.toString();
 
-          // today = meteoData.update.isUtc.toString() + // concatenation de string pour afficher jour date mois annee
-          //     " " +
-          //     meteoData.update.day.toString() +
-          //     " " +
-          //     meteoData.update.month.toString() +
-          //     " " +
-          //  meteoData.update.year.toString();
+          DateTime date = DateTime.now();
+          DateFormat formatter = DateFormat('EEEE d MMMM yyyy','pt_FR');
+          dataJours = formatter.format(date);
 
-          // temperatureInfo =
-          //     'Tmin: ${forecast[0]?.tmin}°C - Tmax: ${forecast[0]?.tmax}°C';
-          //
-          // // creation d'une liste weatherInfoList pour les jours à venir.
+
         });
       } else {
         setState(() {
@@ -91,7 +82,7 @@ class _MainAppState extends State<MainApp> {
           child: Column(children: [
             const Spacer(),
             Text(
-              "$cityName $pays",
+              "$cityName $pays \n $dataJours",
               style: const TextStyle(
                 fontSize: 26,
                 color: Colors.white,
@@ -113,28 +104,93 @@ class _MainAppState extends State<MainApp> {
                 color: Colors.white,
               ),
             ),
-            const SizedBox(
-              height: 150,
+            SizedBox(
+              height: 100,
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(
+                Container(
                   height: 100,
-                  width: 50,
+                  width: 100,
+
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.black54,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(3, -3),
+                      ),
+                    ],
+                  ),
+                  // Add the Text widget inside the Container with desired styling:
+                  child: Center(
+                    child: Text(
+                      'humidité\n $humidite' + ' %',
+                      style: TextStyle(
+                        fontSize: 18, // Adjust font size as needed
+                        color: Colors.white70, // Adjust text color as needed
+                      ),
+                    ),
+                  ),
                 ),
-                Text("Humidité"),
-                SizedBox(
+                Container(
                   height: 100,
-                  width: 50,
+                  width: 100,
+
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.black87,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(3, -3),
+                      ),
+                    ],
+                  ),
+                  // Add the Text widget inside the Container with desired styling:
+                  child: Center(
+                    child: Text(
+                      'Vent -> :\n $venDirection' + ' °',
+                      style: TextStyle(
+                        fontSize: 18, // Adjust font size as needed
+                        color: Colors.white70, // Adjust text color as needed
+                      ),
+                    ),
+                  ),
                 ),
-                Text("Température\n recentie "),
-                SizedBox(
+                Container(
                   height: 100,
-                  width: 50,
+                  width: 100,
+
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.indigo,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.45),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                        offset: Offset(3, -3),
+                      ),
+                    ],
+                  ),
+                  // Add the Text widget inside the Container with desired styling:
+                  child: Center(
+                    child: Text(
+                      'Vent\n $vent' + ' m/s',
+                      style: TextStyle(
+                        fontSize: 18, // Adjust font size as needed
+                        color: Colors.white70, // Adjust text color as needed
+                      ),
+                    ),
+                  ),
                 ),
-                Text("Vent :"),
               ],
             ),
             Expanded(
