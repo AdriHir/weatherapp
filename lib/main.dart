@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:meteoapp/entities/entityMeteo.dart';
-import 'package:meteoapp/utils/initWetaher.dart';
-import 'package:intl/date_symbol_data_local.dart';
-
-
+import 'package:meteoapp/utils/initWeatherData.dart';
 
 void main() {
   runApp(const MainApp());
@@ -31,16 +29,25 @@ class _MainAppState extends State<MainApp> {
   String vent = '';
   String venDirection = '';
   String dataJours = '';
+  bool dataArrived = false;
+  List<ListElement> weatherPre10day = [];
+  Map dailayWeather = {};
 
+  // for (int i = 0; i < meteoData.list.length; i++) {
+  //   factories.add(meteoData.list[i]);
+  // }
+  //
+  //
   //ici on iniatialise les variables pour les utiliser dans le setState
 
   @override
   void initState() {
     super.initState();
-    getWeather((succeed, List<ListElement> weatherList, meteoData) {
-      if (succeed) {
+    getWeather((succed, dailyWeather, meteoData, Null) {
+      if (succed) {
         // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
+          dataArrived = true;
           cityName = meteoData!.city.name;
           weatherIcon = meteoData.list[0].weather[0]
               .icon; //recuperation du code icon de ladatabase
@@ -50,19 +57,26 @@ class _MainAppState extends State<MainApp> {
           pays = meteoData.city.country.toString();
           today = meteoData.city.population.toStringAsFixed(0);
           tempT = meteoData.list[0].main.temp.toStringAsFixed(1);
-          weatherInfoList = weatherList
+          /*************************creation d'un tableau des jours à venir************************************/
+          for (int i = 0; i < meteoData.list.length; i++) {
+            weatherPre10day.add(meteoData.list[i]);
+          }
+           weatherInfoList = weatherPre10day
+           /*******************************si j'ai bien compris on affecte les indice du tableau qu'on affcecte a une map******************************************/
               .sublist(0, meteoData.list.length)
               .map((daylylist) =>
+           /***************************** on affecte les données qu'on veux afficher dans la map***************************************************/
                   'Tmax:${daylylist.main.tempMax.toStringAsFixed(1)}\nTMin:${daylylist.main.tempMin.toStringAsFixed(1)}')
               .toList();
+          /**************************************************************/
           vent = meteoData.list[0].wind.speed.toString();
           venDirection = meteoData.list[0].wind.deg.toString();
-          initializeDateFormatting();
-          DateTime nowUtc = DateTime.now().toUtc();
-          DateFormat localFormat = DateFormat.yMMMMEEEEd('fr');
-          dataJours = localFormat.format(nowUtc);
-
-
+          initializeDateFormatting(); // iniatialise la fonction intl
+          DateTime nowUtc = DateTime.now(); //on récupere la date du jours.
+          DateFormat localFormat = DateFormat.yMMMMEEEEd(
+              'fr'); // on formate la date d'affichage jours date mois année
+          dataJours = localFormat
+              .format(nowUtc); // on met la formatagedans une variable.
         });
       } else {
         setState(() {
@@ -80,10 +94,11 @@ class _MainAppState extends State<MainApp> {
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("lib/assets/pictures/back.jpg"),
+                  image: AssetImage("lib/assets/pictures/back.jpg"), /// ajout d'un background image
                   fit: BoxFit.fill)),
           child: Column(children: [
             const Spacer(),
+            /******************************************Nom de la ville******************************************/
             Text(
               "$cityName $pays",
               style: const TextStyle(
@@ -91,13 +106,14 @@ class _MainAppState extends State<MainApp> {
                 color: Colors.white,
               ),
             ),
-            Text('$dataJours',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.grey
+            /**************************************Date du jour**********************************/
+            Text(
+              '$dataJours',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            ),
-            Image.network(urlIcon),
+            /*********************************Icon**************************************************/
+            if (dataArrived) Image.network(urlIcon), //affectation d'une variable pour evite l'erreur d'affichage en attendant la recuperation
+            /******************************Temperature********************************************/
             Text(
               "$tempT C°",
               style: const TextStyle(
@@ -106,6 +122,8 @@ class _MainAppState extends State<MainApp> {
               ),
             ),
             const SizedBox(height: 10),
+
+            /***************************Population ****************************************/
             Text(
               "Population :  $today  d'habitants ",
               style: const TextStyle(
@@ -113,12 +131,13 @@ class _MainAppState extends State<MainApp> {
                 color: Colors.white,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                /*********************Container 1 Humidité************************************************************/
                 Container(
                   height: 100,
                   width: 100,
@@ -131,7 +150,7 @@ class _MainAppState extends State<MainApp> {
                         color: Colors.black.withOpacity(0.25),
                         spreadRadius: 2,
                         blurRadius: 7,
-                        offset: Offset(3, -3),
+                        offset: const Offset(3, -3),
                       ),
                     ],
                   ),
@@ -139,13 +158,14 @@ class _MainAppState extends State<MainApp> {
                   child: Center(
                     child: Text(
                       'humidité\n $humidite' + ' %',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18, // Adjust font size as needed
                         color: Colors.white70, // Adjust text color as needed
                       ),
                     ),
                   ),
                 ),
+                /***************************Container2 vent ->****************************************/
                 Container(
                   height: 100,
                   width: 100,
@@ -158,7 +178,7 @@ class _MainAppState extends State<MainApp> {
                         color: Colors.black.withOpacity(0.25),
                         spreadRadius: 2,
                         blurRadius: 7,
-                        offset: Offset(3, -3),
+                        offset: const Offset(3, -3),
                       ),
                     ],
                   ),
@@ -166,17 +186,17 @@ class _MainAppState extends State<MainApp> {
                   child: Center(
                     child: Text(
                       'Vent -> :\n $venDirection' + ' °',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18, // Adjust font size as needed
                         color: Colors.white70, // Adjust text color as needed
                       ),
                     ),
                   ),
                 ),
+                /*****************Container 3 vent m/s*****************************/
                 Container(
                   height: 100,
                   width: 100,
-
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Colors.indigo,
@@ -185,7 +205,7 @@ class _MainAppState extends State<MainApp> {
                         color: Colors.black.withOpacity(0.45),
                         spreadRadius: 3,
                         blurRadius: 5,
-                        offset: Offset(3, -3),
+                        offset: const Offset(3, -3),
                       ),
                     ],
                   ),
@@ -193,7 +213,7 @@ class _MainAppState extends State<MainApp> {
                   child: Center(
                     child: Text(
                       'Vent\n $vent' + ' m/s',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18, // Adjust font size as needed
                         color: Colors.white70, // Adjust text color as needed
                       ),
@@ -202,6 +222,7 @@ class _MainAppState extends State<MainApp> {
                 ),
               ],
             ),
+            /***************************Expanded Scroll Men*********************************/
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -247,6 +268,7 @@ class _MainAppState extends State<MainApp> {
                 ),
               ),
             ),
+
           ]),
         ),
       ),
