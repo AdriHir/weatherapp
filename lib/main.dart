@@ -40,7 +40,7 @@ class _MainAppState extends State<MainApp> {
           tempT = meteoData.list[0].main.temp.toStringAsFixed(0);
           pays = meteoData.city.country.toString();
           today = meteoData.city.population.toStringAsFixed(0);
-          tempT =meteoData.list[0].main.temp.toStringAsFixed(1);
+          tempT = meteoData.list[0].main.temp.toStringAsFixed(1);
           weatherInfoList = weatherList
               .sublist(0, meteoData.list.length)
               .map((daylylist) =>
@@ -89,75 +89,75 @@ class _MainAppState extends State<MainApp> {
                   image: AssetImage("lib/assets/pictures/back.jpg"),
                   fit: BoxFit.fill)),
           child: Column(children: [
-            Spacer(),
+            const Spacer(),
             Text(
               "$cityName $pays",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 26,
                 color: Colors.white,
               ),
             ),
-            Image.network('$urlIcon'),
+            Image.network(urlIcon),
             Text(
-              "$tempT"+" C°",
-              style: TextStyle(
+              "$tempT C°",
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
-              "Populatuion : " + " $today " + " d'habitants ",
-              style: TextStyle(
+              "Population :  $today  d'habitants ",
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.white,
               ),
             ),
-            Row(
+            const SizedBox(
+              height: 150,
+            ),
+            const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 300,
+                  height: 100,
                   width: 50,
                 ),
-                Text("data"),
+                Text("Humidité"),
                 SizedBox(
                   height: 100,
-                  width: 100,
+                  width: 50,
                 ),
-                Text("data"),
+                Text("Température\n recentie "),
                 SizedBox(
                   height: 100,
-                  width: 100,
+                  width: 50,
                 ),
-                Text("data"),
+                Text("Vent :"),
               ],
             ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children:
-                      weatherInfoList.map((weather) {
+                      children: weatherInfoList.map((weather) {
                         return Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(bottom: 20),
-                              padding: EdgeInsets.all(0),
+                              margin: const EdgeInsets.only(bottom: 20),
+                              padding: const EdgeInsets.all(0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(0),
-
                                 child: Image.network(
-                                  '$urlIcon',
+                                  urlIcon,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -168,7 +168,7 @@ class _MainAppState extends State<MainApp> {
                               right: 00,
                               child: Text(
                                 weather,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
                                 ),
