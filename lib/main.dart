@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meteoapp/utils/initParam.dart';
+import 'package:meteoapp/utils/initWetaher.dart';
+
 
 void main() {
   runApp(const MainApp());
@@ -17,6 +19,7 @@ class _MainAppState extends State<MainApp> {
   String cityName = 'Chargement...';
   String cp = "";
   String temperatureInfo = '';
+  String tempT ='';
   List<String> weatherInfoList = [];
   String today = '';
   //ici on iniatialise les variables pour les utiliser dans le setState
@@ -24,32 +27,40 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    getWeatherData((succeed, forecast, meteoData) {
+    getWeather((succeed, meteoData) {
       if (succeed) {
         // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
-          cityName = meteoData!.city.name; // on affecte le nom de la ville
-          cp = meteoData.city.cp.toString();
-          today = meteoData.update.isUtc.toString() + // concatenation de string pour afficher jour date mois annee
-              " " +
-              meteoData.update.day.toString() +
-              " " +
-              meteoData.update.month.toString() +
-              " " +
-              meteoData.update.year.toString();
 
-          temperatureInfo =
-              'Tmin: ${forecast[0]?.tmin}°C - Tmax: ${forecast[0]?.tmax}°C';
+          cityName=meteoData!.city.name;
+          tem
+          cp=meteoData!.city.country.toString();
+          today=meteoData.city.timezone.toString();
+          tempT=meteoData.list[0].main.temp.toString()
+          // cityName = meteoData!.city.name; // on affe
+          // cte le nom de la ville
+          // cp = meteoData.city.cp.toString();
 
-          // creation d'une liste weatherInfoList pour les jours à venir.
-          weatherInfoList = forecast
-              .sublist(0, meteoData.forecast.length)
-              //sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
+          // today = meteoData.update.isUtc.toString() + // concatenation de string pour afficher jour date mois annee
+          //     " " +
+          //     meteoData.update.day.toString() +
+          //     " " +
+          //     meteoData.update.month.toString() +
+          //     " " +
+            //  meteoData.update.year.toString();
 
-              .map((dailyOnForecast) => // .map applique la fonction dite de transformation ( c'est google qui ma dis ! ) à chaque elemeent de la sous liste qu'on a mis en variable DailyOnforcast
-                  ' ${dailyOnForecast.weather} \n ${meteoData.update.day + 1}/${meteoData.update.month}')
-              //concatenation que l'on veux mettre dans une liste a chauque indice
-              .toList();
+          // temperatureInfo =
+          //     'Tmin: ${forecast[0]?.tmin}°C - Tmax: ${forecast[0]?.tmax}°C';
+          //
+          // // creation d'une liste weatherInfoList pour les jours à venir.
+          // weatherInfoList = forecast
+          //     .sublist(0, meteoData.forecast.length)
+          //     //sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
+          //
+          //     .map((dailyOnForecast) => // .map applique la fonction dite de transformation ( c'est google qui ma dis ! ) à chaque elemeent de la sous liste qu'on a mis en variable DailyOnforcast
+          //         ' ${dailyOnForecast.weather} \n ${meteoData.update.day + 1}/${meteoData.update.month}')
+          //     //concatenation que l'on veux mettre dans une liste a chauque indice
+          //     .toList();
         });
       } else {
         setState(() {
@@ -58,6 +69,7 @@ class _MainAppState extends State<MainApp> {
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

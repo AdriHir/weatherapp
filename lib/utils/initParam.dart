@@ -17,3 +17,4 @@ Future<void> getWeatherData(void Function(bool succeed, List<Forecast> forecasts
     callback(false, [], null);
   }
 }
+
