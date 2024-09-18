@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meteoapp/entities/entityMeteo.dart';
-import 'package:meteoapp/utils/initParam.dart';
 import 'package:meteoapp/utils/initWetaher.dart';
-
 
 void main() {
   runApp(const MainApp());
@@ -20,25 +17,35 @@ class _MainAppState extends State<MainApp> {
   String cityName = 'Chargement...';
   String cp = "";
   String temperatureInfo = '';
-  String tempT ='';
+  String tempT = '';
   List<String> weatherInfoList = [];
   String today = '';
+  String weatherIcon = '';
+  String pays = '';
+  String urlIcon = '';
+
   //ici on iniatialise les variables pour les utiliser dans le setState
 
   @override
   void initState() {
     super.initState();
-    getWeather((succeed, List<ListElement> weatherList,meteoData) {
+    getWeather((succeed, List<ListElement> weatherList, meteoData) {
       if (succeed) {
         // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
-
-          cityName=meteoData!.city.name;
-
-          cp=meteoData!.city.country.toString();
-          today=meteoData.city.timezone.toString();
-          tempT=meteoData.list[0].main.temp.toString();
-          weatherInfoList = weatherList.sublist(0,meteoData.list.length).map((daylylist)=>'Tmax:${(daylylist.main.tempMax- 273.15).toStringAsFixed(0)}\nTMin:${(daylylist.main.tempMin- 273.15).toStringAsFixed(0)}').toList();
+          cityName = meteoData!.city.name;
+          weatherIcon = meteoData.list[0].weather[0]
+              .icon; //recuperation du code icon de ladatabase
+          urlIcon = "https://openweathermap.org/img/wn/${weatherIcon}@2x.png";
+          tempT = meteoData.list[0].main.temp.toStringAsFixed(0);
+          pays = meteoData.city.country.toString();
+          today = meteoData.city.population.toStringAsFixed(0);
+          tempT =meteoData.list[0].main.temp.toStringAsFixed(1);
+          weatherInfoList = weatherList
+              .sublist(0, meteoData.list.length)
+              .map((daylylist) =>
+                  'Tmax:${daylylist.main.tempMax.toStringAsFixed(1)}\nTMin:${daylylist.main.tempMin.toStringAsFixed(1)}')
+              .toList();
           // weatherInfoList = forecast
           // .sublist(0, meteoData.forecast.length)
           // sublist applique une fonction de l'indice 0 à la taille du forcast de la list forcast
@@ -56,14 +63,12 @@ class _MainAppState extends State<MainApp> {
           //     " " +
           //     meteoData.update.month.toString() +
           //     " " +
-            //  meteoData.update.year.toString();
+          //  meteoData.update.year.toString();
 
           // temperatureInfo =
           //     'Tmin: ${forecast[0]?.tmin}°C - Tmax: ${forecast[0]?.tmax}°C';
           //
           // // creation d'une liste weatherInfoList pour les jours à venir.
-
-
         });
       } else {
         setState(() {
@@ -72,7 +77,6 @@ class _MainAppState extends State<MainApp> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,19 +91,15 @@ class _MainAppState extends State<MainApp> {
           child: Column(children: [
             Spacer(),
             Text(
-              "$cityName $cp",
+              "$cityName $pays",
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 26,
                 color: Colors.white,
               ),
             ),
-            SvgPicture.asset(
-              "lib/assets/icons/animated/rainy-1.svg",
-              width: 100,
-              height: 100,
-            ),
+            Image.network('$urlIcon'),
             Text(
-              "$temperatureInfo",
+              "$tempT"+" C°",
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
@@ -107,9 +107,9 @@ class _MainAppState extends State<MainApp> {
             ),
             SizedBox(height: 10),
             Text(
-              "$today",
+              "Populatuion : " + " $today " + " d'habitants ",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Colors.white,
               ),
             ),
@@ -120,11 +120,6 @@ class _MainAppState extends State<MainApp> {
                 SizedBox(
                   height: 300,
                   width: 50,
-                  ),
-                Text("data"),
-                SizedBox(
-                  height: 100,
-                  width: 100,
                 ),
                 Text("data"),
                 SizedBox(
@@ -132,36 +127,54 @@ class _MainAppState extends State<MainApp> {
                   width: 100,
                 ),
                 Text("data"),
-               ],
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                ),
+                Text("data"),
+              ],
             ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: weatherInfoList.map((weather) {
-                        return Container(
+                      children:
+                      weatherInfoList.map((weather) {
+                        return Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              padding: EdgeInsets.all(0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
 
-                          margin: EdgeInsets.only(right: 15),
-                          // met un margin entre les boitesa droite
-                          padding: EdgeInsets.all(20),
-                          //met un paddind autour du text
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0),
-                            // rajoute une opacité<1
-                            borderRadius: BorderRadius.circular(
-                                20), //arrondi les 4 angles
-                          ),
-                          child: Text(
-                            weather,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(0),
+
+                                child: Image.network(
+                                  '$urlIcon',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: 0,
+                              left: 15,
+                              right: 00,
+                              child: Text(
+                                weather,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       }).toList(),
                     ),

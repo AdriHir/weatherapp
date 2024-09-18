@@ -22,9 +22,7 @@ Future<MeteoModel>  connectApi([String? currentLocation]) async {
   String? apiKey = dotenv.env['KEY_API'];
 
 
-// position en dur car lemulateur est sur une addresse en amerique que l'API ne prend pas en compte.
-  //utilisation changer les 45.611,5.5 par $latitude et $longitude
-  final urlMeteoApi = Uri.parse("http://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&appid=$apiKey");
+  final urlMeteoApi = Uri.parse("http://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric");
 
   var body = await http
       .get(urlMeteoApi)
