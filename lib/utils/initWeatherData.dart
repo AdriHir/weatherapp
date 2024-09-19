@@ -1,3 +1,7 @@
+
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:meteoapp/services/apisecondrequest.dart';
 import '../entities/entityMeteo.dart';
 
@@ -20,7 +24,8 @@ Future<void> getWeather(
         dailyWeather[day]!.add(prevision);
       } else {
         dailyWeather[day] = [prevision];
-      }
+
+      }if(kDebugMode) {  log("[${day.toIso8601String()}]: ${dailyWeather[day]}");}
     }
 
     callback(true, dailyWeather, meteoData, null);

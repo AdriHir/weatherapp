@@ -5,6 +5,8 @@
 
 
 
+import 'dart:developer';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:meteoapp/entities/entityMeteo.dart';
@@ -30,7 +32,7 @@ Future<MeteoModel>  connectApi([String? currentLocation]) async {
 
     return reponse.body;
   });
-
+  log("${meteoModelFromJson(body).toJson()}test1");
   return meteoModelFromJson(body);
 }
 
