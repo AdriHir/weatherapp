@@ -69,7 +69,7 @@ class Assets {
   static const String staticWeatherSagittarius = 'lib/assets/icons/static/weather_sagittarius.svg';
   static const String staticWeatherSprite = 'lib/assets/icons/static/weather-sprite.svg';
   static const String staticWeatherSunset = 'lib/assets/icons/static/weather_sunset.svg';
-  static const String utilsAppColors = 'lib/utils/app_colors.dart';
+  static const String utilsColorsImport = 'lib/utils/colorsImport.dart';
   static const String utilsInitParam = 'lib/utils/initParam.dart';
   static const String utilsInitWeatherData = 'lib/utils/initWeatherData.dart';
 
