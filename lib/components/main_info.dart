@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meteoapp/pages/chartpage.dart';
 
+
 class MainInfo extends StatelessWidget {
   const MainInfo({
     super.key,

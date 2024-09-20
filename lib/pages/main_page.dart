@@ -39,6 +39,7 @@ class MainPage extends StatelessWidget {
 
                 /// ajout d'un background image
                 fit: BoxFit.fill)),
+
         child: MainInfo(
             cityName: cityName,
             pays: pays,

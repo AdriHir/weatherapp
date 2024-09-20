@@ -29,6 +29,7 @@ class Assets {
   static const String animatedWeatherSagittarius = 'lib/assets/icons/animated/weather_sagittarius.svg';
   static const String animatedWeatherSprite = 'lib/assets/icons/animated/weather-sprite.svg';
   static const String animatedWeatherSunset = 'lib/assets/icons/animated/weather_sunset.svg';
+  static const String backupBackupchartComponent = 'lib/backup/backupchart_component.dart';
   static const String componentsChartComponent = 'lib/components/chart_component.dart';
   static const String componentsMainInfo = 'lib/components/main_info.dart';
   static const String entitiesEntityMeteo = 'lib/entities/entityMeteo.dart';
@@ -38,10 +39,11 @@ class Assets {
   static const String meteoapp = '.env';
   static const String pagesChartpage = 'lib/pages/chartpage.dart';
   static const String pagesMainPage = 'lib/pages/main_page.dart';
+  static const String pagesWeatherbycity = 'lib/pages/weatherbycity.dart';
   static const String picturesBack = 'lib/assets/pictures/back.jpg';
   static const String servicesApisecondrequest = 'lib/services/apisecondrequest.dart';
   static const String servicesGeolocator = 'lib/services/geolocator.dart';
-  static const String servicesRequeteapi = 'lib/services/requeteapi.dart';
+  static const String servicesRequestbycity = 'lib/services/requestbycity.dart';
   static const String staticCloudy = 'lib/assets/icons/static/cloudy.svg';
   static const String staticCloudyDay1 = 'lib/assets/icons/static/cloudy-day-1.svg';
   static const String staticCloudyDay2 = 'lib/assets/icons/static/cloudy-day-2.svg';
@@ -69,7 +71,7 @@ class Assets {
   static const String staticWeatherSagittarius = 'lib/assets/icons/static/weather_sagittarius.svg';
   static const String staticWeatherSprite = 'lib/assets/icons/static/weather-sprite.svg';
   static const String staticWeatherSunset = 'lib/assets/icons/static/weather_sunset.svg';
-  static const String utilsColorsImport = 'lib/utils/colorsImport.dart';
+  static const String utilsColorsClass = 'lib/utils/colorsClass.dart';
   static const String utilsInitParam = 'lib/utils/initParam.dart';
   static const String utilsInitWeatherData = 'lib/utils/initWeatherData.dart';
 
