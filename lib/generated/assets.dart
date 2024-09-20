@@ -31,12 +31,14 @@ class Assets {
   static const String animatedWeatherSunset = 'lib/assets/icons/animated/weather_sunset.svg';
   static const String backupBackupchartComponent = 'lib/backup/backupchart_component.dart';
   static const String componentsChartComponent = 'lib/components/chart_component.dart';
+  static const String componentsChartTestingComponent = 'lib/components/chart_testing_component.dart';
   static const String componentsMainInfo = 'lib/components/main_info.dart';
   static const String entitiesEntityMeteo = 'lib/entities/entityMeteo.dart';
   static const String entitiesMeteoEntity = 'lib/entities/meteoEntity.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String libMain = 'lib/main.dart';
   static const String meteoapp = '.env';
+  static const String pagesCharpagetest = 'lib/pages/charpagetest.dart';
   static const String pagesChartpage = 'lib/pages/chartpage.dart';
   static const String pagesMainPage = 'lib/pages/main_page.dart';
   static const String pagesWeatherbycity = 'lib/pages/weatherbycity.dart';

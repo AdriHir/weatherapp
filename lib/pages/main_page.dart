@@ -15,6 +15,8 @@ class MainPage extends StatelessWidget {
     required this.venDirection,
     required this.vent,
     required this.weatherInfoList,
+    required bool this.debugMode,
+
   });
 
   final String cityName;
@@ -27,20 +29,20 @@ class MainPage extends StatelessWidget {
   final String humidite;
   final String venDirection;
   final String vent;
+  final bool debugMode;
   final List<String> weatherInfoList;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("lib/assets/pictures/back.jpg"),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("lib/assets/pictures/back.jpg"),
 
-                /// ajout d'un background image
-                fit: BoxFit.fill)),
-
-        child: MainInfo(
+                  /// ajout d'un background image
+                  fit: BoxFit.fill)),
+          child: MainInfo(
             cityName: cityName,
             pays: pays,
             dataJours: dataJours,
@@ -51,8 +53,9 @@ class MainPage extends StatelessWidget {
             humidite: humidite,
             venDirection: venDirection,
             vent: vent,
-            weatherInfoList: weatherInfoList),
-      ),
+            weatherInfoList: weatherInfoList,
+            debugMode: debugMode,
+          )),
     );
   }
 }

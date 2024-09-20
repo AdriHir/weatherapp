@@ -31,8 +31,10 @@ class _MainAppState extends State<MainApp> {
   String venDirection = '';
   String dataJours = '';
   bool dataArrived = false;
-  List<ListElement> weatherPre10day = [];
+  List<ListElement> weatherPre15day = [];
   Map dailayWeather = {};
+  bool debugMode = false;
+
 
   // for (int i = 0; i < meteoData.list.length; i++) {
   //   factories.add(meteoData.list[i]);
@@ -49,6 +51,7 @@ class _MainAppState extends State<MainApp> {
         // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
           dataArrived = true;
+          debugMode = false;
           cityName = meteoData!.city.name;
           weatherIcon = meteoData.list[0].weather[0]
               .icon; //recuperation du code icon de ladatabase
@@ -58,11 +61,13 @@ class _MainAppState extends State<MainApp> {
           pays = meteoData.city.country.toString();
           today = meteoData.city.population.toStringAsFixed(0);
           tempT = meteoData.list[0].main.temp.toStringAsFixed(1);
+
+
           /*************************creation d'un tableau des jours à venir************************************/
           for (int i = 0; i < meteoData.list.length; i++) {
-            weatherPre10day.add(meteoData.list[i]);
+            weatherPre15day.add(meteoData.list[i]);
           }
-          weatherInfoList = weatherPre10day
+          weatherInfoList = weatherPre15day
               /*******************************si j'ai bien compris on affecte les indice du tableau qu'on affcecte a une map******************************************/
               .sublist(0, meteoData.list.length)
               .map((daylylist) =>
@@ -96,6 +101,7 @@ class _MainAppState extends State<MainApp> {
           pays: pays,
           dataJours: dataJours,
           dataArrived: dataArrived,
+          debugMode: debugMode,
           urlIcon: urlIcon,
           tempT: tempT,
           today: today,

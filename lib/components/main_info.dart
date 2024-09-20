@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meteoapp/pages/charpagetest.dart';
 import 'package:meteoapp/pages/chartpage.dart';
 
 
@@ -9,6 +10,7 @@ class MainInfo extends StatelessWidget {
     required this.pays,
     required this.dataJours,
     required this.dataArrived,
+    required this.debugMode,
     required this.urlIcon,
     required this.tempT,
     required this.today,
@@ -29,6 +31,7 @@ class MainInfo extends StatelessWidget {
   final String venDirection;
   final String vent;
   final List<String> weatherInfoList;
+  final bool debugMode;
 
   @override
   Widget build(BuildContext context) {
@@ -166,10 +169,20 @@ class MainInfo extends StatelessWidget {
           onPressed: () => {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Chartpage()),
+              MaterialPageRoute(builder: (context) => Chartpage(weatherListInfo: weatherInfoList)),
             )
           },
-          child: Text('METEO DU JOUR'),
+          child: Text('données de la semaine'),
+        ),
+      if (debugMode)
+        ElevatedButton(
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Chartpagetest(weatherListInfo: weatherInfoList)),
+            )
+          },
+          child: Text('bouton test'),
         ),
 
       /***************************Expanded Scroll bottom*********************************/

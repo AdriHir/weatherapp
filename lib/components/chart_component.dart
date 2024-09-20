@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class BarChartComponent extends StatefulWidget {
-  const BarChartComponent({super.key});
+  final List<String> weatherListInfo;
+
+  const BarChartComponent({super.key, required, required this.weatherListInfo});
 
   @override
   State<BarChartComponent> createState() => BarChartComponentState();
@@ -92,6 +94,7 @@ class BarChartComponentState extends State<BarChartComponent> {
                 axisLine: AxisLine(width: 0),
                 majorTickLines: MajorTickLines(size: 0),
                 title: AxisTitle(text: 'humidité (%)'),
+                minimum: 40,
               ),
               // Configuration des axes et des séries pour l'humidité
               series: <CartesianSeries>[
@@ -113,20 +116,25 @@ class BarChartComponentState extends State<BarChartComponent> {
 
 class _rainning {
   _rainning(this.x, this.y);
+
   final String x;
   final double? y;
 }
 
 class _DayWeek {
   _DayWeek(this.week, this.jours);
+
   final String week;
   final double jours;
 }
+
 class _Humidity {
   _Humidity(this.day, this.humidity);
+
   final String day;
   final double humidity;
 }
+
 Color getColor(double temperature) {
   if (temperature <= 10) {
     return Colors.blue;
