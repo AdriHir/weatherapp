@@ -19,7 +19,7 @@ Future<MeteoModel>  connectApi([String? currentLocation]) async {
   double longitude = position.longitude;
   await dotenv.load(fileName: ".env");
   String? apiKey = dotenv.env['KEY_API2'];
-  final urlMeteoApi = Uri.parse("http://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric");
+  final urlMeteoApi = Uri.parse("http://api.openweathermap.org/data/2.5/forecast?lat=45.611&lon=5.5&appid=$apiKey&units=metric");
   var body = await http
       .get(urlMeteoApi)
       .then((reponse){

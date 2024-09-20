@@ -293,6 +293,7 @@ class Weather {
 enum Description {
   BROKEN_CLOUDS,
   CLEAR_SKY,
+  FEW_CLOUDS,
   LIGHT_RAIN,
   MODERATE_RAIN,
   OVERCAST_CLOUDS,
@@ -302,6 +303,7 @@ enum Description {
 final descriptionValues = EnumValues({
   "broken clouds": Description.BROKEN_CLOUDS,
   "clear sky": Description.CLEAR_SKY,
+  "few clouds": Description.FEW_CLOUDS,
   "light rain": Description.LIGHT_RAIN,
   "moderate rain": Description.MODERATE_RAIN,
   "overcast clouds": Description.OVERCAST_CLOUDS,
