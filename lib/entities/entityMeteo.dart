@@ -322,6 +322,7 @@ final mainEnumValues = EnumValues({
   "Rain": MainEnum.RAIN
 });
 
+
 class Wind {
   double speed;
   int deg;

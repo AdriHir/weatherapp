@@ -22,6 +22,7 @@ class _MainAppState extends State<MainApp> {
   String temperatureInfo = '';
   String tempT = '';
   List<String> weatherInfoList = [];
+  List<String> weatherChartData = [];
   String today = '';
   String weatherIcon = '';
   String pays = '';
@@ -34,7 +35,6 @@ class _MainAppState extends State<MainApp> {
   List<ListElement> weatherPre15day = [];
   Map dailayWeather = {};
   bool debugMode = false;
-
 
   // for (int i = 0; i < meteoData.list.length; i++) {
   //   factories.add(meteoData.list[i]);
@@ -51,7 +51,7 @@ class _MainAppState extends State<MainApp> {
         // met en place les setStates qu'on desire utiliser depuis la reponse api
         setState(() {
           dataArrived = true;
-          debugMode = false;
+          debugMode = true;
           cityName = meteoData!.city.name;
           weatherIcon = meteoData.list[0].weather[0]
               .icon; //recuperation du code icon de ladatabase
@@ -60,13 +60,19 @@ class _MainAppState extends State<MainApp> {
           tempT = meteoData.list[0].main.temp.toStringAsFixed(0);
           pays = meteoData.city.country.toString();
           today = meteoData.city.population.toStringAsFixed(0);
-          tempT = meteoData.list[0].main.temp.toStringAsFixed(1);
-
+          tempT = meteoData.list[0].main.temp.toStringAsFixed(0);
 
           /*************************creation d'un tableau des jours à venir************************************/
           for (int i = 0; i < meteoData.list.length; i++) {
             weatherPre15day.add(meteoData.list[i]);
           }
+          weatherChartData = weatherPre15day
+              /*******************************si j'ai bien compris on affecte les indice du tableau qu'on affcecte a une map******************************************/
+              .sublist(0, 7)
+              .map((daylylist) =>
+                  /***************************** on affecte les données qu'on veux afficher dans la map***************************************************/
+                  'Tmax:${daylylist.main.tempMax.toStringAsFixed(1)} ${daylylist.rain.toString()} ${daylylist.rain?.the3H} }')
+              .toList();
           weatherInfoList = weatherPre15day
               /*******************************si j'ai bien compris on affecte les indice du tableau qu'on affcecte a une map******************************************/
               .sublist(0, meteoData.list.length)
