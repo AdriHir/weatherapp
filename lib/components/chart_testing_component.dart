@@ -12,7 +12,7 @@ class BarChartComponentTest extends StatefulWidget {
   @override
   State<BarChartComponentTest> createState() => BarChartComponentTestState();
 }
-
+/////// -----------PAGE TEST POUR RECUPERE LA LISTE DES PRECIPITATIONS----------------///////////////////
 class BarChartComponentTestState extends State<BarChartComponentTest> {
   String temperatures = "";
 
